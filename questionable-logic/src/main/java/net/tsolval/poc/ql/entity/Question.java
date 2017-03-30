@@ -1,15 +1,16 @@
 package net.tsolval.poc.ql.entity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import net.tsolval.poc.ql.constants.ResponseType;
 
 /**
  * This object represents a question to be asked. A Question is related to an
- * Answer. TODO: Decide whether to create an Answer object to compose with.
+ * Answer.
  * 
  * @author walker.d.adams
- *
  */
 public class Question {
 	private String questionId;
@@ -17,6 +18,58 @@ public class Question {
 	private Question parent;
 	private List<Question> children;
 	private ResponseType responseType;
+	private Response response;
+	private Conditional conditional;
+
+	public Question() {
+		children = new ArrayList<Question>();
+		setResponse(new Response(this));
+	}
+
+	public Question(String question) {
+		this();
+		setQuestionString(question);
+	}
+
+	public Question(String question, ResponseType responseType) {
+		this(question);
+		setResponseType(responseType);
+	}
+
+	public Question(String question, ResponseType responseType, Conditional conditional) {
+		this(question, responseType);
+		setConditional(conditional);
+	}
+
+	public Question(String question, Question parent) {
+		this(question);
+		setParent(parent);
+	}
+
+	public Question(String question, Question parent, ResponseType responseType) {
+		this(question, parent);
+		setResponseType(responseType);
+	}
+
+	public Question(String question, List<Question> children) {
+		this(question);
+		setChildren(children);
+	}
+
+	public Question(String question, List<Question> children, ResponseType responseType) {
+		this(question, children);
+		setResponseType(responseType);
+	}
+
+	public Question(String question, Question parent, List<Question> children) {
+		this(question, parent);
+		setChildren(children);
+	}
+
+	public Question(String question, Question parent, List<Question> children, ResponseType responseType) {
+		this(question, parent, children);
+		setResponseType(responseType);
+	}
 
 	/**
 	 * @return the questionId
@@ -71,11 +124,27 @@ public class Question {
 	}
 
 	/**
+	 * @param child
+	 *            the child question to add
+	 */
+	public void addChild(Question child) {
+		children.add(child);
+	}
+
+	/**
 	 * @param children
 	 *            the children to set
 	 */
 	public void setChildren(List<Question> children) {
 		this.children = children;
+	}
+
+	/**
+	 * @param children
+	 *            the children to set
+	 */
+	public void setChildren(Question... questions) {
+		setChildren(Arrays.asList(questions));
 	}
 
 	/**
@@ -93,4 +162,44 @@ public class Question {
 		this.responseType = responseType;
 	}
 
+	/**
+	 * @return the response
+	 */
+	public Response getResponse() {
+		return response;
+	}
+
+	/**
+	 * @param response
+	 *            the response to set
+	 */
+	public void setResponse(Response response) {
+		this.response = response;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		return String.format("Question [questionString=%s, responseType=%s, parent=%s, children=%s]", questionString,
+				responseType, parent, children);
+	}
+
+	/**
+	 * @return the conditional
+	 */
+	public Conditional getConditional() {
+		return conditional;
+	}
+
+	/**
+	 * @param conditional
+	 *            the conditional to set
+	 */
+	public void setConditional(Conditional conditional) {
+		this.conditional = conditional;
+	}
 }

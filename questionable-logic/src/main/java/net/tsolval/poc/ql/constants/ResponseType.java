@@ -1,9 +1,14 @@
 package net.tsolval.poc.ql.constants;
 
 /**
+ * Indicates the type of response for a question.
  * 
  * @author walker.d.adams
- *
+ * 
+ *         TODO: This response type needs to be user expandable. Perhaps this
+ *         should be an interface with implementations for each type. We can
+ *         wire them into the questions with Spring or reflectively call the
+ *         appropriate implementation.
  */
 public enum ResponseType {
 	/**

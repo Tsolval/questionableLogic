@@ -1,16 +1,23 @@
 package net.tsolval.poc.ql.entity;
 
-import net.tsolval.poc.ql.constants.ResponseType;
-
 /**
+ * The response to a question.
+ * 
  * @author walker.d.adams
- *
  */
 public class Response {
 
 	private String id;
-	private ResponseType responseType;
-	private String answer;
+	private Question question;
+	private String answerString;
+
+	public Response() {
+		// default constructor; do nothing
+	}
+
+	public Response(Question q) {
+		setQuestion(q);
+	}
 
 	/**
 	 * @return the id
@@ -28,25 +35,25 @@ public class Response {
 	}
 
 	/**
-	 * @return the responseType
+	 * @return the question
 	 */
-	public ResponseType getResponseType() {
-		return responseType;
+	public Question getQuestion() {
+		return question;
 	}
 
 	/**
-	 * @param responseType
-	 *            the responseType to set
+	 * @param question
+	 *            the question to set
 	 */
-	public void setResponseType(ResponseType responseType) {
-		this.responseType = responseType;
+	public void setQuestion(Question question) {
+		this.question = question;
 	}
 
 	/**
 	 * @return the answer
 	 */
 	public String getAnswer() {
-		return answer;
+		return answerString;
 	}
 
 	/**
@@ -54,6 +61,6 @@ public class Response {
 	 *            the answer to set
 	 */
 	public void setAnswer(String answer) {
-		this.answer = answer;
+		this.answerString = answer;
 	}
 }
