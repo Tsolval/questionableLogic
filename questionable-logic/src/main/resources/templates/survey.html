@@ -1,0 +1,22 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Getting Started: Serving Web Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<form>
+	<table th:each="question : ${survey.questions}">
+		<tr>
+			<!-- display question -->
+			<td th:text="${question.questionString}">text ...</td>
+		</tr>
+		<!-- display children if applicable -->
+		<tr th:each="child : ${question.children}">
+			<td th:text="${child.questionString}">text ... </td>
+			
+		</tr>
+	</table>
+	</form>
+</body>
+</html>
