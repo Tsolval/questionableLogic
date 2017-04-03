@@ -30,14 +30,26 @@ public class Question {
 		this();
 		setQuestionString(question);
 	}
-
+	
 	public Question(String question, ResponseType responseType) {
 		this(question);
 		setResponseType(responseType);
 	}
+	
+	public Question(String questionId, String question, ResponseType responseType) {
+		this(question);
+		setResponseType(responseType);
+		setQuestionId(questionId);
+	}
 
 	public Question(String question, ResponseType responseType, Conditional conditional) {
 		this(question, responseType);
+		setConditional(conditional);
+	}
+	
+	public Question(String questionId, String question, ResponseType responseType, Conditional conditional) {
+		this(question, responseType);
+		setQuestionId(questionId);
 		setConditional(conditional);
 	}
 
