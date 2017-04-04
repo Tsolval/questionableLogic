@@ -3,6 +3,7 @@ package net.tsolval.poc.ql.entity;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Predicate;
 
 import net.tsolval.poc.ql.constants.ResponseType;
 
@@ -132,6 +133,8 @@ public class Question {
 	 * @return the children
 	 */
 	public List<Question> getChildren() {
+		Predicate<Question> questionPredicate = p-> p.getConditional().evaluate() == false;
+		children.removeIf(questionPredicate);
 		return children;
 	}
 
