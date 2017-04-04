@@ -25,6 +25,7 @@ import net.tsolval.poc.ql.constants.ResponseType;
 public class SurveyTest {
 	private Survey survey;
 
+	/** Build a question hierarchy to loop through. */
 	@Before
 	public void setupSurvey() {
 		survey = new Survey();
@@ -58,5 +59,7 @@ public class SurveyTest {
 		assertThat(survey.getNextQuestion().toString(), CoreMatchers.allOf(CoreMatchers.containsString("id=Q3"),
 				CoreMatchers.containsString("parent=Q1"), CoreMatchers.containsString("children=[]")));
 		assertNull(survey.getNextQuestion());
+		assertThat(survey.getNextQuestion().toString(), CoreMatchers.allOf(CoreMatchers.containsString("id=Q1"),
+				CoreMatchers.containsString("parent=null"), CoreMatchers.containsString("children=[Q2, Q3]")));
 	}
 }
