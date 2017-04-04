@@ -1,5 +1,7 @@
 package net.tsolval.poc.ql.entity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -18,11 +20,25 @@ public class Survey {
 
 	public Survey() {
 		currentQ = null;
+		questions = new ArrayList<Question>();
+		questionMap = new HashMap<String, Question>();
 	}
 
 	public Survey(List<Question> questions) {
 		this();
 		setQuestions(questions);
+	}
+
+	public boolean hasNextQuestion() {
+		if (questions == null) {
+			return false;
+		} else if (currentQ == null) {
+			return !questions.isEmpty();
+		} else if (currentQ.hasChildren()) {
+			return true;
+		} else {
+			return getNextSibling(currentQ) != null;
+		}
 	}
 
 	public Question getNextQuestion() {
@@ -56,12 +72,33 @@ public class Survey {
 		return questions;
 	}
 
+	public void addQuestion(Question question) {
+		questions.add(question);
+		questionMap.put(question.getQuestionId(), question);
+	}
+
 	/**
 	 * @param questions
 	 *            the questions to set
 	 */
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
+		questionMap.clear();
+		while (this.hasNextQuestion()) {
+			Question q = this.getNextQuestion();
+			questionMap.put(q.getQuestionId(), q);
+		}
+	}
+
+	/**
+	 * Look up a survey question by its ID and return it.
+	 * 
+	 * @param questionId
+	 *            the ID of the expected question.
+	 * @return the Question in question.
+	 */
+	public Question getQuestion(String questionId) {
+		return questionMap.get(questionId);
 	}
 
 	/**
