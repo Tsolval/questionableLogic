@@ -30,12 +30,12 @@ public class Question {
 		this();
 		setQuestionString(question);
 	}
-	
+
 	public Question(String question, ResponseType responseType) {
 		this(question);
 		setResponseType(responseType);
 	}
-	
+
 	public Question(String questionId, String question, ResponseType responseType) {
 		this(question);
 		setResponseType(responseType);
@@ -46,7 +46,7 @@ public class Question {
 		this(question, responseType);
 		setConditional(conditional);
 	}
-	
+
 	public Question(String questionId, String question, ResponseType responseType, Conditional conditional) {
 		this(question, responseType);
 		setQuestionId(questionId);
@@ -140,7 +140,13 @@ public class Question {
 	 *            the child question to add
 	 */
 	public void addChild(Question child) {
+		child.setParent(this);
 		children.add(child);
+	}
+
+	/** @return true if this question has children */
+	public boolean hasChildren() {
+		return !getChildren().isEmpty();
 	}
 
 	/**
@@ -148,7 +154,9 @@ public class Question {
 	 *            the children to set
 	 */
 	public void setChildren(List<Question> children) {
-		this.children = children;
+		for (Question child : children) {
+			addChild(child);
+		}
 	}
 
 	/**
@@ -196,8 +204,14 @@ public class Question {
 	 */
 	@Override
 	public String toString() {
-		return String.format("Question [questionString=%s, responseType=%s, parent=%s, children=%s]", questionString,
-				responseType, parent, children);
+		List<String> childIds = new ArrayList<String>();
+		for (Question child : children) {
+			childIds.add(child.getQuestionId());
+		}
+		String parentId = parent == null ? null : parent.getQuestionId();
+		String message = String.format("Question [id=%s, question=%s, responseType=%s, parent=%s, children=%s]",
+				questionId, questionString, responseType, parentId, childIds);
+		return message;
 	}
 
 	/**

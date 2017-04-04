@@ -38,5 +38,10 @@ public enum ResponseType {
 	/** The response is a list of questions in a radio set. **/
 	RADIOLIST,
 	/** The response type is a password-type obscured text box. **/
-	SECRET
+	SECRET,
+	/**
+	 * This Response Type represents a question that doesn't have answers.
+	 * Usually used to group questions.
+	 */
+	NONE
 }
