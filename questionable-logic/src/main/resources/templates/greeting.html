@@ -5,6 +5,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-	<p th:text="'Hello, ' + ${name} + '!'" />
+	<p th:text="${name} + '!'" />
+	
+	<form id="survey" name="survey" action="#"
+		th:action="@{/survey/testGroup}">
+				<button type="submit">New Survey</button>
+	</form>
 </body>
 </html>
