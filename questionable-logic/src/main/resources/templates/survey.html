@@ -13,78 +13,43 @@
 	</script>
 	<!-- need test group to be dynamic -->
 	<form id="survey" name="survey" action="#"
-		th:action="@{/survey/testGroup}" th:object="${formData}" method="post">
-		<table th:each="question : ${survey.questions}">
+		th:action="@{/survey/testGroup}" method="post">
+		<!-- th:object="${formData}" -->
+
+		<table>
 			<tr>
 				<!-- display question -->
 				<td th:text="${question.questionString}">text ...</td>
+				<td><input type="hidden" th:attr="name='questionId'"
+					th:value="${question.questionId}" /></td>
+
 			</tr>
 			<tr>
 				<td>
-					<!-- display type --> <!--<input type="text"
-					th:field="*{questionsMap[question.questionId]}" />  			<td th:text="${question.questionString}">text ...</td>
- -->
+					<!-- display type -->
 					<div th:switch="${question.responseType}">
-						<p
+							<p
 							th:case="${T(net.tsolval.poc.ql.constants.ResponseType).BOOLEAN}">
 							<input type="radio" th:name="${question.questionId} + _radio"
-								th:value="Yes"
-								th:field="*{questionsMap[question.questionId].response.answer}" />
+								th:value="YES" th:field="*{question.response.answer}"/>
 							Yes <input type="radio" th:name="${question.questionId} + _radio"
-								th:value="No"
-								th:field="*{questionsMap[question.questionId].response.answer}" />
+								th:value="NO" th:field="*{question.response.answer}"/>
 							No
 						</p>
 						<p
 							th:case="${T(net.tsolval.poc.ql.constants.ResponseType).TEXTBOX}">
-							<input type="text"
-								th:field="*{questionsMap[question.questionId]}" />
+							<input type="text" th:field="*{question.response.answer}" />
+						</p>
+						<p	
+							th:case="${T(net.tsolval.poc.ql.constants.ResponseType).TEXTAREA}">
+							<textarea th:field="*{question.response.answer}"></textarea>
 						</p>
 						<p
-							th:case="${T(net.tsolval.poc.ql.constants.ResponseType).TEXTAREA}">
-							<textarea></textarea>
+							th:case="${T(net.tsolval.poc.ql.constants.ResponseType).CHECKLIST}">
+							children will supply the check boxes needed for completion
 						</p>
 						<p th:case="*">Undefined response type.</p>
 					</div>
-				</td>
-			</tr>
-			<!-- display children if applicable -->
-			<tr>
-				<td>
-					<table th:each="child : ${question.children}">
-						<tr>
-							<td th:text="${child.questionString}">text ...</td>
-						</tr>
-						<tr>
-							<td>
-								<!-- display type --> <!-- Need to update as map should pull children instead of main questions entry -->
-								<div th:switch="${child.responseType}">
-									<p
-										th:case="${T(net.tsolval.poc.ql.constants.ResponseType).BOOLEAN}">
-										<input type="radio" th:name="${question.questionId} + _radio"
-											th:value="Yes"
-											th:field="*{questionsMap[question.questionId].response.answer}" />
-										Yes <input type="radio"
-											th:name="${question.questionId} + _radio" th:value="No"
-											th:field="*{questionsMap[question.questionId].response.answer}" />
-										No
-									</p>
-									<p
-										th:case="${T(net.tsolval.poc.ql.constants.ResponseType).TEXTBOX}">
-										<input type="text"
-											th:field="*{questionsMap[question.questionId].response.answer}" />
-									</p>
-									<p
-										th:case="${T(net.tsolval.poc.ql.constants.ResponseType).TEXTAREA}">
-										<textarea
-											th:field="*{questionsMap[question.questionId].response.answer}"></textarea>
-									</p>
-									<p th:case="*">Undefined response type.</p>
-								</div>
-
-							</td>
-						</tr>
-					</table>
 				</td>
 			</tr>
 		</table>
