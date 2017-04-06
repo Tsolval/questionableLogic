@@ -133,7 +133,8 @@ public class Question {
 	 * @return the children
 	 */
 	public List<Question> getChildren() {
-		Predicate<Question> questionPredicate = p-> p.getConditional().evaluate() == false;
+		Predicate<Question> questionPredicate = p-> !p.getConditional().evaluate();
+		// drop filtered items in new list
 		children.removeIf(questionPredicate);
 		return children;
 	}
