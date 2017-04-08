@@ -1,59 +1,41 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<title>Getting Started: Serving Web Content</title>
+<title>Sample Survey</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <body>
-	<!-- Should be moved to JS file -->
-	<script th:inline="javascript">
-		function changeAction() {
-			document.getElementById("survey").action = "/survey/testGroup/continue";
-		}
-	</script>
-	<!-- need test group to be dynamic -->
-	<form id="survey" name="survey" action="#"
-		th:action="@{/survey/testGroup}" method="post">
-		<!-- th:object="${formData}" -->
-
-		<table>
-			<tr>
-				<!-- display question -->
-				<td th:text="${question.questionString}">text ...</td>
-				<td><input type="hidden" th:attr="name='questionId'"
-					th:value="${question.questionId}" /></td>
-
-			</tr>
-			<tr>
-				<td>
-					<!-- display type -->
-					<div th:switch="${question.responseType}">
-							<p
-							th:case="${T(net.tsolval.poc.ql.constants.ResponseType).BOOLEAN}">
-							<input type="radio" th:name="${question.questionId} + _radio"
-								th:value="YES" th:field="*{question.response.answer}"/>
-							Yes <input type="radio" th:name="${question.questionId} + _radio"
-								th:value="NO" th:field="*{question.response.answer}"/>
-							No
-						</p>
-						<p
-							th:case="${T(net.tsolval.poc.ql.constants.ResponseType).TEXTBOX}">
-							<input type="text" th:field="*{question.response.answer}" />
-						</p>
-						<p	
-							th:case="${T(net.tsolval.poc.ql.constants.ResponseType).TEXTAREA}">
-							<textarea th:field="*{question.response.answer}"></textarea>
-						</p>
-						<p
-							th:case="${T(net.tsolval.poc.ql.constants.ResponseType).CHECKLIST}">
-							children will supply the check boxes needed for completion
-						</p>
-						<p th:case="*">Undefined response type.</p>
+	<form action="#" th:action="@{/survey}" th:object="${survey}"
+		method="post">
+		<fieldset name="${survey.name}" title="${survey.name}">
+			<div th:each="question : ${survey.questionMap.values()}">
+				<div th:text="${question.questionString}">Q?</div>
+				<div th:switch="${question.responseType}">
+					<div
+						th:case="${T(net.tsolval.poc.ql.constants.ResponseType).BOOLEAN}">
+						Yes <input type="radio" th:name="${question.questionId} + _radio"
+							th:value="YES"
+							th:field="*{questionMap[question.questionId].response.answer}" />
+						No <input type="radio" th:name="${question.questionId} + _radio"
+							th:value="NO"
+							th:field="*{questionMap[question.questionId].response.answer}" />
 					</div>
-				</td>
-			</tr>
-		</table>
-		<button type="submit" onclick="changeAction();">Submit</button>
+					<div
+						th:case="${T(net.tsolval.poc.ql.constants.ResponseType).TEXTBOX}">
+						A: <input type="text"
+							th:field="*{questionMap[question.questionId].response.answer}" />
+					</div>
+					<div
+						th:case="${T(net.tsolval.poc.ql.constants.ResponseType).TEXTAREA}">
+						A: <input type="text"
+							th:field="*{questionMap[question.questionId].response.answer}" />
+					</div>
+				</div>
+				<p />
+			</div>
+		</fieldset>
+		<input type="submit" value="Submit" /> <input type="reset"
+			value="Reset" />
 	</form>
 </body>
 </html>

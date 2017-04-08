@@ -1,0 +1,19 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Sample Survey Results</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<p th:text="'Survey Results for ' + ${survey.name} + '!'" />
+
+	<form id="surveyResultsForm" name="surveyResultsForm" action="#"
+		th:action="@{/survey}" th:object="${survey}">
+		<div th:each="question : ${survey.questionMap.values()}">
+			<div th:text="${question.questionId}">Q?</div>
+			<div th:text="${question.response.answer}">A!</div>
+		</div>
+		<button type="submit">New Survey</button>
+	</form>
+</body>
+</html>
